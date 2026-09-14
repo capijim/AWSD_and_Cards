@@ -10,7 +10,6 @@ namespace AWSD_and_Cards.Enemy
     {
         [Header("Interaction Settings")]
         public LayerMask obstacleLayer;
-        public float gridSize = 1f;
 
         private EnemyMovement enemyMovement;
         private EnemyHealth enemyHealth;
@@ -62,7 +61,7 @@ namespace AWSD_and_Cards.Enemy
             // Kiểm tra xem Enemy đã đứng sát Player chưa (khoảng cách 1 ô)
             float distanceToPlayer = Mathf.Abs(diffX) + Mathf.Abs(diffY);
             
-            if (distanceToPlayer <= gridSize + 0.1f && distanceToPlayer > 0.1f)
+            if (distanceToPlayer <= GridUtility.GridSize + 0.1f && distanceToPlayer > 0.1f)
             {
                 PlayerHealth pHealth = playerTransform.GetComponent<PlayerHealth>();
                 if (pHealth != null)
@@ -77,7 +76,7 @@ namespace AWSD_and_Cards.Enemy
 
             if (moveDirection != Vector3.zero)
             {
-                Vector3 targetPosition = transform.position + moveDirection * gridSize;
+                Vector3 targetPosition = transform.position + moveDirection * GridUtility.GridSize;
                 enemyMovement.MoveTo(targetPosition);
             }
         }
@@ -100,13 +99,13 @@ namespace AWSD_and_Cards.Enemy
 
             if (Mathf.Abs(diffX) > Mathf.Abs(diffY))
             {
-                if (dirX != Vector3.zero && CanMoveTo(transform.position + dirX * gridSize)) return dirX;
-                if (dirY != Vector3.zero && CanMoveTo(transform.position + dirY * gridSize)) return dirY;
+                if (dirX != Vector3.zero && CanMoveTo(transform.position + dirX * GridUtility.GridSize)) return dirX;
+                if (dirY != Vector3.zero && CanMoveTo(transform.position + dirY * GridUtility.GridSize)) return dirY;
             }
             else
             {
-                if (dirY != Vector3.zero && CanMoveTo(transform.position + dirY * gridSize)) return dirY;
-                if (dirX != Vector3.zero && CanMoveTo(transform.position + dirX * gridSize)) return dirX;
+                if (dirY != Vector3.zero && CanMoveTo(transform.position + dirY * GridUtility.GridSize)) return dirY;
+                if (dirX != Vector3.zero && CanMoveTo(transform.position + dirX * GridUtility.GridSize)) return dirX;
             }
 
             return Vector3.zero;

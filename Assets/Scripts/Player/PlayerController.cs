@@ -49,7 +49,7 @@ namespace AWSD_and_Cards.Player
 
             if (moveDirection != Vector3.zero)
             {
-                Vector3 nextPos = transform.position + moveDirection * playerMovement.gridSize;
+                Vector3 nextPos = transform.position + moveDirection * GridUtility.GridSize;
                 TryAction(nextPos);
             }
         }

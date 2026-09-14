@@ -4,13 +4,14 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
-    public float gridSize = 1f;
 
     public bool IsMoving { get; private set; } = false;
     private Vector3 targetPosition;
 
     public void Init()
     {
+        // Snap vị trí ban đầu vào lưới để tránh bị lệch ngay từ đầu
+        transform.position = AWSD_and_Cards.GridUtility.SnapToGrid(transform.position);
         targetPosition = transform.position;
     }
 
@@ -33,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
     // Bắt đầu di chuyển tới ô mới
     public void MoveTo(Vector3 nextPos)
     {
-        targetPosition = nextPos;
+        targetPosition = AWSD_and_Cards.GridUtility.SnapToGrid(nextPos);
         IsMoving = true;
     }
 }

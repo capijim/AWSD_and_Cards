@@ -12,6 +12,8 @@ namespace AWSD_and_Cards.Enemy
 
         public void Init()
         {
+            // Snap vị trí ban đầu vào lưới
+            transform.position = GridUtility.SnapToGrid(transform.position);
             targetPosition = transform.position;
         }
 
@@ -33,7 +35,7 @@ namespace AWSD_and_Cards.Enemy
 
         public void MoveTo(Vector3 nextPos)
         {
-            targetPosition = nextPos;
+            targetPosition = GridUtility.SnapToGrid(nextPos);
             IsMoving = true;
         }
     }
