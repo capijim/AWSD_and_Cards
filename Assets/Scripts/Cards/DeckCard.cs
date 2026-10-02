@@ -6,15 +6,18 @@ namespace AWSD_and_Cards.Card
     public class DeckCard : MonoBehaviour
     {
         [Header("Deck States")]
-        public List<Cards> allCards = new List<Cards>();     // Tổng hợp bài ban đầu
-        public List<Cards> drawPile = new List<Cards>();     // Chồng bài rút
-        public List<Cards> discardPile = new List<Cards>();  // Chồng bài bỏ
+        public List<Card> allCards = new List<Card>();     // Tổng hợp bài ban đầu
+        public List<Card> drawPile = new List<Card>();     // Chồng bài rút
+        public List<Card> discardPile = new List<Card>();  // Chồng bài bỏ
 
         private void Start()
         {
             InitializeDeck();
         }
 
+        /// <summary>
+        /// Khởi tạo bộ bài: sao chép từ allCards sang drawPile và xào trộn
+        /// </summary>
         public void InitializeDeck()
         {
             drawPile.Clear();
@@ -25,18 +28,24 @@ namespace AWSD_and_Cards.Card
             ShuffleDeck();
         }
 
+        /// <summary>
+        /// Xào trộn bộ bài
+        /// </summary>
         public void ShuffleDeck()
         {
             for (int i = 0; i < drawPile.Count; i++)
             {
-                Cards temp = drawPile[i];
+                Card temp = drawPile[i];
                 int randomIndex = Random.Range(i, drawPile.Count);
                 drawPile[i] = drawPile[randomIndex];
                 drawPile[randomIndex] = temp;
             }
         }
 
-        public Cards DrawCard()
+        /// <summary>
+        /// Rút một lá bài từ chồng bài rút. Nếu chồng bài rút trống, xào lại từ chồng bài bỏ. Nếu cả hai đều trống, trả về null.
+        /// </summary>
+        public Card DrawCard()
         {
             if (drawPile.Count == 0)
             {
@@ -53,12 +62,15 @@ namespace AWSD_and_Cards.Card
                 Debug.Log("Đã xào lại bài bỏ vào bộ bài.");
             }
 
-            Cards drawnCard = drawPile[0];
+            Card drawnCard = drawPile[0];
             drawPile.RemoveAt(0);
             return drawnCard;
         }
 
-        public void DiscardCard(Cards card)
+        /// <summary>
+        /// Bỏ một lá bài vào chồng bài bỏ
+        /// </summary>
+        public void DiscardCard(Card card)
         {
             discardPile.Add(card);
         }

@@ -17,7 +17,7 @@ namespace AWSD_and_Cards.Enemy
             targetPosition = transform.position;
         }
 
-        // Được gọi liên tục từ EnemyController
+        // Được gọi từ EnemyController
         public void UpdateMovement()
         {
             if (IsMoving)

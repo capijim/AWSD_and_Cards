@@ -94,21 +94,32 @@ namespace AWSD_and_Cards.Enemy
 
         private Vector3 GetBestMoveDirection(float diffX, float diffY)
         {
-            Vector3 dirX = Mathf.Abs(diffX) > 0.1f ? new Vector3(Mathf.Sign(diffX), 0f, 0f) : Vector3.zero;
-            Vector3 dirY = Mathf.Abs(diffY) > 0.1f ? new Vector3(0f, Mathf.Sign(diffY), 0f) : Vector3.zero;
+            // Danh sách 4 hướng có thể đi
+            Vector3[] possibleDirs = new Vector3[] { Vector3.up, Vector3.down, Vector3.left, Vector3.right };
+            
+            Vector3 bestDir = Vector3.zero;
+            float minDistance = float.MaxValue;
 
-            if (Mathf.Abs(diffX) > Mathf.Abs(diffY))
+            foreach (Vector3 dir in possibleDirs)
             {
-                if (dirX != Vector3.zero && CanMoveTo(transform.position + dirX * GridUtility.GridSize)) return dirX;
-                if (dirY != Vector3.zero && CanMoveTo(transform.position + dirY * GridUtility.GridSize)) return dirY;
-            }
-            else
-            {
-                if (dirY != Vector3.zero && CanMoveTo(transform.position + dirY * GridUtility.GridSize)) return dirY;
-                if (dirX != Vector3.zero && CanMoveTo(transform.position + dirX * GridUtility.GridSize)) return dirX;
+                Vector3 targetPos = transform.position + dir * GridUtility.GridSize;
+
+                // Kiểm tra xem hướng này có vật cản (Layer) hoặc đè lên Player không
+                if (!CanMoveTo(targetPos)) 
+                    continue;
+
+                // Tính khoảng cách từ ô đích đến Player
+                float dist = Vector3.Distance(targetPos, playerTransform.position);
+
+                // Ưu tiên chọn hướng mang lại khoảng cách gần Player nhất
+                if (dist < minDistance)
+                {
+                    minDistance = dist;
+                    bestDir = dir;
+                }
             }
 
-            return Vector3.zero;
+            return bestDir;
         }
 
         private bool CanMoveTo(Vector3 targetPos)
